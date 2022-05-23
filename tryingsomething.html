@@ -51,12 +51,19 @@ The command <b>declare-const</b> declares a constant of a given type (aka sort).
 The command <b>declare-fun</b> declares a function. 
 In the following example, we declared a function that
 receives an integer and a boolean, and returns an integer.
-</p>
-<a class="listinglink" target="default" href="/web/20210125011020/https://www.rise4fun.com/Z3/9qN?frame=1&amp;menu=0&amp;course=1"></a><div><textarea rows="3" style="width: 100%;">(echo "starting Z3...")
-(declare-const a Int)
-(declare-fun f (Int Bool) Int)
-</textarea><button>Run</button><br><code style="white-space: pre-wrap;"></code></div>
-<p>
+    
+    
+    
+<div id="control-panel">
+        <div class="row">
+          <input class="cell" id="command-line-args" type="text" value="-smt2" disabled="disabled" />
+          <span id="run-cell"><input id="run" type="button" value="Loading…" disabled="disabled" /></span>
+        </div>
+      </div>
+      <pre id="stdout"></pre>
+    
+    
+    
 The command <b>assert</b>
 adds a formula into the Z3 internal stack. 
 We say the set of formulas in the Z3 stack is <b>satisfiable</b>
@@ -120,6 +127,20 @@ evaluates (returns) 21 when <tt>x!1</tt> is equal to 11, and <tt>x!2</tt> is equ
 Otherwise, it returns 0.
 </p>
 
-
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js"
+      integrity="sha256-xrr4HH5eSY+cFz4SH7ja/LaAi9qcEdjMpeMP49/iOLs="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/mode-lisp.js"
+      integrity="sha256-wfwED8MuFsljraPmCVHtcP7jjyi6ffnB1kk1kY2ha5g="
+      crossorigin="anonymous"
+    ></script>
+    <script type="module" src="main.js"></script>
+    
+    
 
 </body></html>
+
+
