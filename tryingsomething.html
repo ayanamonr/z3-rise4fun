@@ -1,0 +1,125 @@
+<html><head></head><body>
+    <script src="coi-serviceworker.js"></script>
+    <script src="out/z3.js"> </script>
+    <script src="helper.js"> </script> 
+
+
+
+<h1>Getting Started with Z3: A Guide</h1>
+<p style="clear:both;">Be sure to follow along with the examples by clicking the "edit" link in the
+corner. See what the tool says, try your own formulas, and experiment!</p>
+
+<h2>Introduction</h2>
+
+<p>
+Z3 is a state-of-the art theorem prover from Microsoft Research. It  
+can be used to check the satisfiability of logical formulas over one or more theories. 
+Z3 offers a compelling match for software analysis and verification tools, since several 
+common software constructs map directly into supported theories.
+</p>
+
+<p>
+The main objective of the tutorial is to introduce the reader on how to use
+Z3 effectively for logical modeling and solving.
+The tutorial provides some general background on logical modeling, 
+but we have to defer a full introduction to first-order logic and 
+decision procedures to text-books.
+</p>
+
+<p>
+Z3 is a low level tool. It is best used
+as a component in the context of other tools that require solving logical
+formulas. Consequently, Z3 exposes a number of API facilities to make it 
+convenient for tools to map into Z3, but there are no stand-alone 
+editors or user-centric facilities for interacting with Z3. 
+The language syntax used in the front ends favor simplicity in contrast
+to linguistic convenience. 
+</p>
+
+<h2>Basic Commands</h2>
+
+<p>
+The Z3 input format is an extension of the one defined by the 
+<a href="https://web.archive.org/web/20210125011020/http://www.smtlib.org/" target="_blank">SMT-LIB 2.0 standard</a>.
+A Z3 script is a sequence of commands. 
+The <b>help</b> command displays a list of all available
+commands. The command <b>echo</b> displays a message. 
+Internally, Z3 maintains a <b>stack</b>
+of user provided formulas and declarations. 
+We say these are the <b>assertions</b> provided by the user. 
+The command <b>declare-const</b> declares a constant of a given type (aka sort). 
+The command <b>declare-fun</b> declares a function. 
+In the following example, we declared a function that
+receives an integer and a boolean, and returns an integer.
+</p>
+<a class="listinglink" target="default" href="/web/20210125011020/https://www.rise4fun.com/Z3/9qN?frame=1&amp;menu=0&amp;course=1"></a><div><textarea rows="3" style="width: 100%;">(echo "starting Z3...")
+(declare-const a Int)
+(declare-fun f (Int Bool) Int)
+</textarea><button>Run</button><br><code style="white-space: pre-wrap;"></code></div>
+<p>
+The command <b>assert</b>
+adds a formula into the Z3 internal stack. 
+We say the set of formulas in the Z3 stack is <b>satisfiable</b>
+if there is an interpretation (for the user declared constants and functions)
+that makes all asserted formulas true.
+</p>
+<a class="listinglink" target="default" href="/web/20210125011020/https://www.rise4fun.com/Z3/E?frame=1&amp;menu=0&amp;course=1"></a><div><textarea rows="5" style="width: 100%;">(declare-const a Int)
+(declare-fun f (Int Bool) Int)
+(assert (&gt; a 10))
+(assert (&lt; (f a true) 100))
+(check-sat)
+</textarea><button>Run</button><br><code style="white-space: pre-wrap;">sat</code></div> 
+<p>
+The first asserted formula states that the constant <tt>a</tt> must be greater than 10.
+The second one states that the function <tt>f</tt> applied to <tt>a</tt> and <tt>true</tt> must
+return a value less than 100.
+The command <b>check-sat</b> determines whether the current formulas on the Z3 stack
+are satisfiable or not. 
+If the formulas are satisfiable, Z3 returns <b>sat</b>. If they are not satisfiable (i.e., they are <b>unsatisfiable</b>),
+Z3 returns <b>unsat</b>. Z3 may also return <b>unknown</b> when it can't determine whether a formula
+is satisfiable or not.
+</p>
+
+<p> 
+When the command check-sat returns <b>sat</b>, the command <b>get-model</b> can be used to retrieve 
+an interpretation that makes all formulas on the Z3 internal stack true.
+</p> 
+<a class="listinglink" target="default" href="/web/20210125011020/https://www.rise4fun.com/Z3/E8?frame=1&amp;menu=0&amp;course=1"></a><div><textarea rows="6" style="width: 100%;">(declare-const a Int)
+(declare-fun f (Int Bool) Int)
+(assert (&gt; a 10))
+(assert (&lt; (f a true) 100))
+(check-sat)
+(get-model)
+</textarea><button>Run</button><br><code style="white-space: pre-wrap;"></code></div> 
+
+<p>
+The interpretation is provided using <b>definitions</b>. 
+For example, the definition: </p>
+<code>
+(define-fun a () Int [val])
+</code>
+<p>
+states that the value of <tt>a</tt> in the model is <tt>[val]</tt>.
+The definition: </p>
+<code>
+(define-fun f ((x!1 Int) (x!2 Bool)) Int
+   ...
+)
+</code>
+<p>
+is very similar to a function definition used in programming languages.
+In this example, <tt>x1</tt> and <tt>x2</tt> are the arguments of the function interpretation
+created by Z3. For this simple example, the definition of <tt>f</tt> is based on
+<b>ite</b>'s (aka if-then-elses or conditional expressions). For example, the expression:
+</p>
+<code>
+(ite (and (= x!1 11) (= x!2 false)) 21 0)
+</code>
+<p>
+evaluates (returns) 21 when <tt>x!1</tt> is equal to 11, and <tt>x!2</tt> is equal to false.
+Otherwise, it returns 0.
+</p>
+
+
+
+</body></html>
