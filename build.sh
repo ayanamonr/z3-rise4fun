@@ -5,7 +5,7 @@ if [ -z $Z3_BASE_DIR ]; then
 fi
 
 if [ -z $Z3_VERSION ]; then
-   export Z3_VERSION="z3-4.8.10"
+   export Z3_VERSION="z3-4.8.16"
 fi
 
 export ROOT=$PWD
